@@ -46,8 +46,9 @@ namespace TSCScraper.Services
           listOfRecords.Add(new Record
           {
             Player = _driver.Url.Split("/")[URL_PLAYER_INDEX],
-            Stat = historyRowData[RECORD_ROW_STAT_INDEX],
-            Date = historyRowData[RECORD_ROW_DATE_INDEX],
+            //stat and date require some validation from bad data (yay)
+            Stat = !historyRowData[RECORD_ROW_STAT_INDEX].Contains("/") ? historyRowData[RECORD_ROW_STAT_INDEX] : listOfRecords[listOfRecords.Count-1].Stat,
+            Date = historyRowData[RECORD_ROW_DATE_INDEX].Contains("-") ? historyRowData[RECORD_ROW_DATE_INDEX] : historyRowData[RECORD_ROW_DATE_INDEX-1],
             Comment = comment,
             HasProof = comment.Contains("youtube.com") || comment.Contains("twitch.tv") || comment.Contains("youtu.be") 
           });
