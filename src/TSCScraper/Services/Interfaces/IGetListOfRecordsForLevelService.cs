@@ -3,7 +3,7 @@ using TSCScraper.Models;
 
 namespace TSCScraper.Services.Interfaces
 {
-  public interface IGetListOfRecordsService
+  public interface IGetListOfRecordsForLevelService
   {
     List<Record> GetListOfRecords();
   }

@@ -7,7 +7,7 @@ using TSCScraper.Services.Interfaces;
 
 namespace TSCScraper.Services
 {
-  public class GetListOfRecordsService : IGetListOfRecordsService
+  public class GetListOfRecordsForLevelService : IGetListOfRecordsForLevelService
   {
     private const int START_INDEX_FOR_COMMENT = 3;
     private const int URL_PLAYER_INDEX = 4;
@@ -18,7 +18,7 @@ namespace TSCScraper.Services
     private readonly string _url;
     private readonly ChromeDriver _driver;
 
-    public GetListOfRecordsService(string urlP, ChromeDriver driverP)
+    public GetListOfRecordsForLevelService(string urlP, ChromeDriver driverP)
     {
       _url = urlP;
       _driver = driverP;
@@ -32,7 +32,7 @@ namespace TSCScraper.Services
 
       var recordsCount = GetRecordCount(_driver.FindElementsByTagName("tr"));
 
-      for (var i = 0; i < recordsCount; i++)
+      for (var i = 0; i < 5; i++)
       {
         _driver.FindElementByXPath($"//*[@id=\"content\"]/table/tbody/tr[2]/td[2]/table/tbody/tr[{i + ROWS_TO_COUNT_AHEAD_WHEN_GETTING_XPATH}]/td[3]/a").Click();
 

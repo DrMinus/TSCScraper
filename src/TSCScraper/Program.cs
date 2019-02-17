@@ -7,13 +7,10 @@ namespace TSCScraper
     private static void Main(string[] args)
     {
       //change this when debugging
-      const string url = "http://www.soniccenter.org/rankings/sonic_1/times/green_hill_1";
-
+      const string gameUrl = "http://www.soniccenter.org/rankings/sonic_1/times/";
       var driver = new InitDriverService().InitChromeDriver();
-      var listOfRecords = new GetListOfRecordsService(url, driver).GetListOfRecords();
+      new GetListOfRecordsByCategoryService(driver, gameUrl).GetListOfRecordsByCategory();
       driver.Dispose();
-      var csvContent = new GetCsvFromRecordListService(listOfRecords).GetCsvFromRecordList();
-      new SaveCsvToFileService(csvContent, url).SaveCsvToFile();
     }
   }
 }
