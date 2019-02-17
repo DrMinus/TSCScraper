@@ -8,6 +8,7 @@ namespace TSCScraper.Services
     private const int LEVEL_TITLE_INDEX = 6;
     private const int GAME_CHARACTER_INDEX = 7;
     private const int RECORD_CATEGORY_INDEX = 5;
+    private const int GAME_NAME_INDEX = 4;
     private readonly string _csvContent;
     private readonly string _url;
     
@@ -20,7 +21,7 @@ namespace TSCScraper.Services
     public void SaveCsvToFile()
     {
       var splitUrl = _url.Split("/");
-      var filePath = $@"{Directory.GetCurrentDirectory()}\{splitUrl[RECORD_CATEGORY_INDEX]}\{splitUrl[GAME_CHARACTER_INDEX]}_{splitUrl[LEVEL_TITLE_INDEX]}.csv";
+      var filePath = $@"{Directory.GetCurrentDirectory()}\{splitUrl[GAME_NAME_INDEX]}\{splitUrl[RECORD_CATEGORY_INDEX]}\{splitUrl[GAME_CHARACTER_INDEX]}_{splitUrl[LEVEL_TITLE_INDEX]}.csv";
       var file = new FileInfo(filePath);
       file.Directory?.Create();
       File.WriteAllText(filePath, _csvContent);
