@@ -1,9 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using System.Threading;
-using OpenQA.Selenium;
 using OpenQA.Selenium.Chrome;
 using TSCScraper.Models;
 using TSCScraper.Services.Interfaces;
@@ -12,17 +9,10 @@ namespace TSCScraper.Services
 {
   public class GetListOfRecordsService : IGetListOfRecordsService
   {
-    private const int MAIN_PAGE_PLAYER_INDEX = 1;
-    private const int MAIN_PAGE_STAT_INDEX = 2;
-    private const int MAIN_PAGE_DATE_INDEX = 3;
-
-    private const int START_TABLE_FROM_INDEX = 2;
-
-    private const int PLAYER_STAT_INDEX = 0;
-    private const int PLAYER_DATE_INDEX = 2;
-    private const int PLAYER_COMMENT_INDEX = 3;
-
-    private const int URL_PLAYER_NAME_INDEX = 4;
+    private const int START_INDEX_FOR_RECORD_LIST = 3;
+    private const int URL_PLAYER_INDEX = 4;
+    private const int RECORD_ROW_STAT_INDEX = 0;
+    private const int RECORD_ROW_DATE_INDEX = 2;
 
     private readonly string _url;
     public GetListOfRecordsService(string urlP)
@@ -35,7 +25,6 @@ namespace TSCScraper.Services
       var listOfRecords = new List<Record>();
       using (var driver = new ChromeDriver($"{Directory.GetCurrentDirectory()}", new ChromeOptions()))
       {
-        //driver.Manage().Window.Minimize();
         driver.Navigate().GoToUrl(_url);
 
         var records = driver.FindElementsByTagName("tr");
@@ -52,33 +41,6 @@ namespace TSCScraper.Services
           {
             continue;
           }
-          //          var rowData = records[i].Text.Split(Environment.NewLine);
-          //
-          //          var currentRecord = new Record
-          //          {
-          //            Player = rowData[MAIN_PAGE_PLAYER_INDEX],
-          //            Stat = rowData[MAIN_PAGE_STAT_INDEX],
-          //            Date = rowData[MAIN_PAGE_DATE_INDEX]
-          //          };
-          //
-          //          try
-          //          {
-          //            var commentElement = driver.FindElementByXPath($"//*[@id=\"content\"]/table/tbody/tr[2]/td[2]/table/tbody/tr[{i + START_TABLE_FROM_INDEX}]/td[3]/a/span");
-          //            if (commentElement.GetAttribute("title") != "")
-          //            {
-          //              currentRecord.Comment = commentElement.GetAttribute("title");
-          //
-          //              if (currentRecord.Comment.Contains("youtu") || currentRecord.Comment.Contains("twitch"))
-          //              {
-          //                currentRecord.HasProof = true;
-          //              }
-          //            }
-          //          }
-          //          catch (NoSuchElementException)
-          //          {
-          //          }
-          //
-          //          listOfRecords.Add(currentRecord);
 
           driver.FindElementByXPath($"//*[@id=\"content\"]/table/tbody/tr[2]/td[2]/table/tbody/tr[{i - 1}]/td[3]/a").Click();
           var historyRecords = driver.FindElementsByTagName("tr").ToList();
@@ -92,7 +54,7 @@ namespace TSCScraper.Services
             var historyRowData = record.Text.Split(" ");
             var comment = "";
 
-            for (var a = 3; a < historyRowData.Length; a++)
+            for (var a = START_INDEX_FOR_RECORD_LIST; a < historyRowData.Length; a++)
             {
               comment += historyRowData[a] + " ";
             }
@@ -104,9 +66,9 @@ namespace TSCScraper.Services
 
             listOfRecords.Add(new Record
             {
-              Player = driver.Url.Split("/")[4],
-              Stat = historyRowData[0],
-              Date = historyRowData[2],
+              Player = driver.Url.Split("/")[URL_PLAYER_INDEX],
+              Stat = historyRowData[RECORD_ROW_STAT_INDEX],
+              Date = historyRowData[RECORD_ROW_DATE_INDEX],
               Comment = comment,
               HasProof = comment.Contains("youtu") || comment.Contains("twitch"),
             });
