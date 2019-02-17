@@ -32,7 +32,7 @@ namespace TSCScraper.Services
 
       var recordsCount = GetRecordCount(_driver.FindElementsByTagName("tr"));
 
-      for (var i = 0; i < 5; i++)
+      for (var i = 0; i < recordsCount; i++)
       {
         _driver.FindElementByXPath($"//*[@id=\"content\"]/table/tbody/tr[2]/td[2]/table/tbody/tr[{i + ROWS_TO_COUNT_AHEAD_WHEN_GETTING_XPATH}]/td[3]/a").Click();
 

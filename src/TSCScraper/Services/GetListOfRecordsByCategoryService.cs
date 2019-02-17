@@ -32,7 +32,7 @@ namespace TSCScraper.Services
         levelCount++;
       }
 
-      for (var i = 0; i < 5; i++)
+      for (var i = 0; i < levelCount; i++)
       {
         _driver.FindElementByXPath($"//*[@id=\"content\"]/table/tbody/tr[2]/td[2]/table/tbody/tr[{i + INDEX_TO_START_LEVELS_FROM}]/td[2]/a").Click();
         var url = _driver.Url;
