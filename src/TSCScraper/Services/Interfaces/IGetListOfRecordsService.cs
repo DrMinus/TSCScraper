@@ -5,6 +5,6 @@ namespace TSCScraper.Services.Interfaces
 {
   public interface IGetListOfRecordsService
   {
-    IEnumerable<Record> GetListOfRecords();
+    List<Record> GetListOfRecords();
   }
 }
